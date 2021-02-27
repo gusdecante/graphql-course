@@ -8,7 +8,7 @@ import {
   Comment,
   Subscription,
 } from "./resolvers";
-import './prisma'
+import prisma from './prisma'
 
 const pubsub = new PubSub();
 
@@ -25,6 +25,7 @@ const server = new GraphQLServer({
   context: {
     db,
     pubsub,
+    prisma
   },
 });
 
