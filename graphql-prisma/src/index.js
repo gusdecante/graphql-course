@@ -1,24 +1,26 @@
-import { GraphQLServer, PubSub } from "graphql-yoga";
-import db from "./db";
-import { resolvers, fragmentReplacements } from "./resolvers"
-import prisma from './prisma'
+import '@babel/polyfill';
+import { GraphQLServer, PubSub } from 'graphql-yoga';
+import db from './db';
+import { resolvers, fragmentReplacements } from './resolvers';
+import prisma from './prisma';
 
 const pubsub = new PubSub();
 
 const server = new GraphQLServer({
-  typeDefs: "./src/schema.graphql",
+  typeDefs: './src/schema.graphql',
   resolvers,
   context(request) {
-    return  {
+    return {
       db,
       pubsub,
       prisma,
-      request
-    }
+      request,
+    };
   },
-  fragmentReplacements
+  fragmentReplacements,
 });
 
-server.start(() => {
-  console.log("The server is up on the port:4000");
+server.start({ port: process.env.PORT || 4000 }, () => {
+  // console.log(`The server is running on port ${port}!`);
+  console.log('The server is up!');
 });
